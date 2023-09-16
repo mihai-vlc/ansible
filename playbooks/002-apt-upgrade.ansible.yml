@@ -1,0 +1,11 @@
+---
+- name: Update all packages
+  hosts: ubuntu
+  remote_user: mihai
+  become: true
+
+  tasks:
+    - name: Upgrade the OS (apt upgrade)
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: safe
