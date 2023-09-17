@@ -1,0 +1,2 @@
+---
+db_api_key: "{{ vault_db_api_key }}"
