@@ -6,10 +6,10 @@
 
   tasks:
     - name: Install dependencies
-      apt:
+      ansible.builtin.apt:
         name: "{{ packages }}"
         state: present
-        update_cache: yes
+        update_cache: true
       vars:
         packages:
           - apt-transport-https
@@ -19,20 +19,20 @@
           - gnupg-agent
     # DOCKER INSTALLATION
     - name: Add an apt signing key for Docker
-      apt_key:
+      ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
     - name: Add apt repository for stable version
-      apt_repository:
+      ansible.builtin.apt_repository:
         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
         state: present
 
     - name: Install Docker
-      apt:
+      ansible.builtin.apt:
         name: "{{ packages }}"
         state: present
-        update_cache: yes
+        update_cache: true
       vars:
         packages:
           - docker-ce
@@ -42,6 +42,6 @@
           - docker-compose-plugin
 
     - name: Add user to docker group
-      user:
-        name: "{{ansible_user}}"
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
         group: docker

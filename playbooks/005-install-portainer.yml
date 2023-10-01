@@ -6,15 +6,15 @@
 
   tasks:
     - name: Install python pip
-      apt:
+      ansible.builtin.apt:
         name: "{{ packages }}"
-        state: latest
+        state: present
       vars:
         packages:
           - python3-pip
 
     - name: Install python docker module
-      pip:
+      ansible.builtin.pip:
         name: docker
 
     # docker run -d \
@@ -25,11 +25,11 @@
     #       -v portainer_data:/data \
     #       portainer/portainer-ce:latest
     - name: Create portainer container
-      docker_container:
+      community.docker.docker_container:
         name: portainer
         image: portainer/portainer-ce
         state: started
-        recreate: yes
+        recreate: true
         restart_policy: always
         published_ports:
           - "8000:8000"
