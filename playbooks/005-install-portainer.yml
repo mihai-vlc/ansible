@@ -1,0 +1,39 @@
+---
+- name: Update all packages
+  hosts: ubuntu
+  remote_user: mihai
+  become: true
+
+  tasks:
+    - name: Install python pip
+      apt:
+        name: "{{ packages }}"
+        state: latest
+      vars:
+        packages:
+          - python3-pip
+
+    - name: Install python docker module
+      pip:
+        name: docker
+
+    # docker run -d \
+    #       -p 8000:8000 -p 9443:9443 \
+    #       --name portainer \
+    #       --restart=always \
+    #       -v /var/run/docker.sock:/var/run/docker.sock \
+    #       -v portainer_data:/data \
+    #       portainer/portainer-ce:latest
+    - name: Create portainer container
+      docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        state: started
+        recreate: yes
+        restart_policy: always
+        published_ports:
+          - "8000:8000"
+          - "9443:9443"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data

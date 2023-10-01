@@ -35,6 +35,17 @@ cli_command_003_debug_messages() {
     ansible-playbook "playbooks/003-debug-show-vault-var.ansible.yml"
 }
 
+actions_description+=$'  004_install_docker          Install docker\n'
+cli_command_004_install_docker() {
+    ansible-playbook --ask-become-pass "playbooks/004-install-docker.yml"
+}
+
+
+actions_description+=$'  005_install_portainer          Install portainer\n'
+cli_command_005_install_portainer() {
+    ansible-playbook --ask-become-pass "playbooks/005-install-portainer.yml"
+}
+
 actions_description+=$'  encrypt_group_vault       Run one time only\n'
 cli_command_encrypt_group_vault() {
     # Run one time when you create the group var
@@ -46,6 +57,7 @@ cli_command_edit_group_vault() {
     # Run each time you want to add or update variables
     ansible-vault edit inventory/group_vars/ubuntu/vault
 }
+
 
 # 
 # 
